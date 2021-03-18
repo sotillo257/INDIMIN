@@ -58,8 +58,8 @@ namespace AccesoDato
             {
                 using (var conexion = new Conexion(_Conexion))
                 {
-                    await conexion.Ciudadano.AddAsync(pCiudadano);
-                    conexion.SaveChanges();
+                     conexion.Ciudadano.AddAsync(pCiudadano);
+                    await conexion.SaveChangesAsync();
                 }
 
                 return pCiudadano;
@@ -78,8 +78,8 @@ namespace AccesoDato
             {
                 using (var conexion = new Conexion(_Conexion))
                 {
-                    await conexion.Ciudadano.Update(pCiudadano).ReloadAsync();
-                    conexion.SaveChanges();
+                     conexion.Ciudadano.Update(pCiudadano);
+                    await conexion.SaveChangesAsync();
                 }
 
                 return pCiudadano;
@@ -97,8 +97,8 @@ namespace AccesoDato
             {                 
                 using (var conexion = new Conexion(_Conexion))
                 {
-                  await conexion.Ciudadano.Remove(pCiudadano).ReloadAsync();
-                    object p = conexion.SaveChanges();
+                   conexion.Ciudadano.Remove(pCiudadano).ReloadAsync();
+                    await conexion.SaveChangesAsync();
                 }
                 return true;
             }

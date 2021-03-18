@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using LogicaNegocio;
 using Modelo;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -58,6 +59,7 @@ namespace INDIMIN.Controllers
 
         // POST api/<CiudadanoController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Insertar(Ciudadano Ciudadano)
         {
             var ciudadano = await _lnCiudadano.Insertar(Ciudadano);
