@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccesoDato", "AccesoDato\Ac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicaNegocio", "LogicaNegocio\LogicaNegocio.csproj", "{0F298C7F-B86C-4BE4-AD2A-C400415360B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INDIMINWEB", "INDIMINWEB\INDIMINWEB.csproj", "{F9C38F7F-0BB2-4B5E-B104-E99251117D2A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{0F298C7F-B86C-4BE4-AD2A-C400415360B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F298C7F-B86C-4BE4-AD2A-C400415360B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F298C7F-B86C-4BE4-AD2A-C400415360B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9C38F7F-0BB2-4B5E-B104-E99251117D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9C38F7F-0BB2-4B5E-B104-E99251117D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9C38F7F-0BB2-4B5E-B104-E99251117D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9C38F7F-0BB2-4B5E-B104-E99251117D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
