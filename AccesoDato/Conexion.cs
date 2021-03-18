@@ -5,10 +5,11 @@ namespace AccesoDato
 {
     public class Conexion : DbContext
     {
-        //public Conexion(DbContextOptions<Conexion> options) : base(options) 
-        //{
-            
-        //}
+        private string _Conexion;
+        public Conexion(string Conexion) 
+        {
+            _Conexion = Conexion;
+        }
 
         public DbSet<Ciudadano> Ciudadano { get; set; }
         public DbSet<Tarea> Tarea { get; set; }
@@ -16,7 +17,7 @@ namespace AccesoDato
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
-            optionsBuilder.UseSqlServer("Data Source=SOTILLOCOMPUTER;Initial Catalog=INDIMIN;Persist Security Info=True;User ID=SA;Password=12345;");
+            optionsBuilder.UseSqlServer(_Conexion);
         }
     }
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LogicaNegocio;
 using Modelo;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,7 +15,15 @@ namespace INDIMIN.Controllers
     [ApiController]
     public class CiudadanoController : ControllerBase
     {
-        lnCiudadano _lnCiudadano = new lnCiudadano();
+        private readonly IConfiguration configuration;
+        lnCiudadano _lnCiudadano;
+        public CiudadanoController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            _lnCiudadano = new lnCiudadano(configuration.GetConnectionString("dev"));
+        }
+
+       
         // GET: api/<CiudadanoController>
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos()

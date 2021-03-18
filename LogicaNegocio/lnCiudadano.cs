@@ -8,7 +8,16 @@ namespace LogicaNegocio
 {
     public class lnCiudadano
     {
-        adCiudadano adCiudadano = new adCiudadano();
+
+        private string _Conexion;
+        adCiudadano adCiudadano;
+        public lnCiudadano(string Conexion)
+        {
+            _Conexion = Conexion;
+            adCiudadano = new adCiudadano(_Conexion);
+        }
+
+       
         public async Task<ICollection<Ciudadano>> ObtenerTodos()
         {           
             return await adCiudadano.ObtenerTodos(); ;

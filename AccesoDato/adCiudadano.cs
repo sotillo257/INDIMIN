@@ -10,14 +10,20 @@ namespace AccesoDato
 {
     public class adCiudadano
     {
+        private string _Conexion;
+        public adCiudadano(string Conexion)
+        {
+            _Conexion = Conexion;
+        }
+
         public async Task<List<Ciudadano>> ObtenerTodos()
         {
             try
             {
                 List<Ciudadano> ciudadanos = null;
-                using (var _Conexion = new Conexion())
+                using (var conexion = new Conexion(_Conexion))
                 {
-                    ciudadanos = await _Conexion.Ciudadano.ToListAsync();
+                    ciudadanos = await conexion.Ciudadano.ToListAsync();
                 }
                 return ciudadanos;
             }
@@ -33,9 +39,9 @@ namespace AccesoDato
             try
             {
                 Ciudadano ciudadanos = null;
-                using (var _Conexion = new Conexion())
+                using (var conexion = new Conexion(_Conexion))
                 {
-                    ciudadanos = await _Conexion.Ciudadano.Where(x => x.Id == pId).FirstOrDefaultAsync();
+                    ciudadanos = await conexion.Ciudadano.Where(x => x.Id == pId).FirstOrDefaultAsync();
                 }
                 return ciudadanos;
             }
@@ -50,10 +56,10 @@ namespace AccesoDato
         public async Task<Ciudadano> Insertar(Ciudadano pCiudadano) {
             try
             {
-                using (var _Conexion = new Conexion())
+                using (var conexion = new Conexion(_Conexion))
                 {
-                    await _Conexion.Ciudadano.AddAsync(pCiudadano);
-                    _Conexion.SaveChanges();
+                    await conexion.Ciudadano.AddAsync(pCiudadano);
+                    conexion.SaveChanges();
                 }
 
                 return pCiudadano;
@@ -70,10 +76,10 @@ namespace AccesoDato
         {
             try
             {
-                using (var _Conexion = new Conexion())
+                using (var conexion = new Conexion(_Conexion))
                 {
-                    await _Conexion.Ciudadano.Update(pCiudadano).ReloadAsync();
-                    _Conexion.SaveChanges();
+                    await conexion.Ciudadano.Update(pCiudadano).ReloadAsync();
+                    conexion.SaveChanges();
                 }
 
                 return pCiudadano;
@@ -89,10 +95,10 @@ namespace AccesoDato
         {
             try
             {                 
-                using (var _Conexion = new Conexion())
+                using (var conexion = new Conexion(_Conexion))
                 {
-                  await  _Conexion.Ciudadano.Remove(pCiudadano).ReloadAsync();
-                    object p =  _Conexion.SaveChanges();
+                  await conexion.Ciudadano.Remove(pCiudadano).ReloadAsync();
+                    object p = conexion.SaveChanges();
                 }
                 return true;
             }
