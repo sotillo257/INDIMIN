@@ -97,7 +97,7 @@ namespace AccesoDato
             {                 
                 using (var conexion = new Conexion(_Conexion))
                 {
-                   conexion.Ciudadano.Remove(pCiudadano).ReloadAsync();
+                   conexion.Ciudadano.Remove(pCiudadano);
                     await conexion.SaveChangesAsync();
                 }
                 return true;

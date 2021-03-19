@@ -89,10 +89,10 @@ namespace INDIMIN.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Eliminar([FromBody] Ciudadano Ciudadano)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Eliminar(int id)
         {
-            var EstaEliminado = await _lnCiudadano.Eliminar(Ciudadano);
+            var EstaEliminado = await _lnCiudadano.Eliminar(new Ciudadano() { Id = id });
 
                 return Ok(new { Result = EstaEliminado });
            
