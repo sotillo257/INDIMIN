@@ -8,17 +8,25 @@ namespace AccesoDato
         private string _Conexion;
         public Conexion(string Conexion) 
         {
-            _Conexion = Conexion;
+            _Conexion =  Conexion;
         }
 
-        public DbSet<Ciudadano> Ciudadano { get; set; }
-        public DbSet<Tarea> Tarea { get; set; }
-        public DbSet<DiaSemana> DiaSemana { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        public Conexion(DbContextOptions<Conexion> options)
+       : base(options)
         {
-            optionsBuilder.UseSqlServer(_Conexion);
         }
+
+        public virtual DbSet<Ciudadano> Ciudadano { get; set; }
+        public virtual DbSet<Tarea> Tarea { get; set; }
+        public virtual DbSet<DiaSemana> DiaSemana { get; set; }
+        public virtual DbSet<CuentaAxie> CuentaAxie { get; set; }
+        public virtual DbSet<Usuarios> Usuarios { get; set; }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        //{
+            
+        //    optionsBuilder.UseSqlServer(_Conexion);
+        //}
     }
 
 

@@ -9,12 +9,10 @@ namespace LogicaNegocio
     public class lnCiudadano
     {
 
-        private string _Conexion;
         adCiudadano adCiudadano;
-        public lnCiudadano(string Conexion)
+        public lnCiudadano(AccesoDato.Conexion conexion)
         {
-            _Conexion = Conexion;
-            adCiudadano = new adCiudadano(_Conexion);
+            adCiudadano = new adCiudadano(conexion);
         }
 
        

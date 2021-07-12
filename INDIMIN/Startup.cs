@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Configuration;
 
 namespace INDIMIN
 {
@@ -42,6 +44,11 @@ namespace INDIMIN
                        )
                    };
                });
+
+            services.AddHttpContextAccessor();
+            services.AddDbContext<AccesoDato.Conexion>(x => x.UseSqlServer(Configuration.GetConnectionString("pro"), 
+                                            y => y.MigrationsAssembly("INDIMIN")));
+
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddCors(options =>

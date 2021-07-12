@@ -18,10 +18,12 @@ namespace INDIMIN.Controllers
     {
         private readonly IConfiguration configuration;
         lnCiudadano _lnCiudadano;
-        public CiudadanoController(IConfiguration configuration)
+        AccesoDato.Conexion _Conexion;
+        public CiudadanoController(IConfiguration configuration, AccesoDato.Conexion conexion)
         {
             this.configuration = configuration;
-            _lnCiudadano = new lnCiudadano(configuration.GetConnectionString("dev"));
+            _lnCiudadano = new lnCiudadano(conexion);
+            _Conexion = conexion;
         }
 
        
@@ -58,9 +60,25 @@ namespace INDIMIN.Controllers
         }
 
         // POST api/<CiudadanoController>
-        [HttpPost]
+        [HttpPost("insert")]
         [AllowAnonymous]
         public async Task<IActionResult> Insertar(Ciudadano Ciudadano)
+        {
+            var ciudadano = await _lnCiudadano.Insertar(Ciudadano);
+
+            if (ciudadano != null)
+            {
+                return Ok(new { Result = true, Ciudadano = ciudadano });
+            }
+            else
+            {
+                return Ok(new { Result = false, Mensaje = "Error al insertar el ciudadano" });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Insert(Ciudadano Ciudadano)
         {
             var ciudadano = await _lnCiudadano.Insertar(Ciudadano);
 

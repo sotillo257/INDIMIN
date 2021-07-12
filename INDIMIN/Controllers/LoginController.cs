@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using LogicaNegocio;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,16 @@ namespace INDIMIN.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration configuration;
+        private lnUsuarios _lnUsuario;
 
         // TRAEMOS EL OBJETO DE CONFIGURACIÓN (appsettings.json)
         // MEDIANTE INYECCIÓN DE DEPENDENCIAS.
-        public LoginController(IConfiguration configuration)
+        public LoginController(IConfiguration configuration, AccesoDato.Conexion conexion)
         {
             this.configuration = configuration;
+            _lnUsuario = new lnUsuarios(conexion);
         }
+
 
         // POST: api/Login
         [HttpPost]
@@ -36,11 +40,12 @@ namespace INDIMIN.Controllers
 
             if (_userInfo != null)
             {
-                return Ok(new { token = GenerarTokenJWT(_userInfo), Usuario = _userInfo });
+                var token = GenerarTokenJWT(_userInfo);
+                return Ok(new { token = token, Usuario = _userInfo });
             }
             else
             {
-                return Unauthorized();
+                return Ok(new { result = false });
             }
         }
 
@@ -48,32 +53,15 @@ namespace INDIMIN.Controllers
         private async Task<Usuarios> AutenticarUsuarioAsync(string usuario, string password)
         {
             // AQUÍ LA LÓGICA DE AUTENTICACIÓN //
-
-            // Supondremos que el Usuario existe en la Base de Datos.
-            // Retornamos un objeto del tipo UsuarioInfo, con toda
-            // la información del usuario necesaria para el Token.
-            if (usuario == "sotillo257@gmail.com")
+           var user = await _lnUsuario.Login(usuario, password);
+            if (user is null)
             {
-                return new Usuarios()
-                {
-                    // Id del Usuario en el Sistema de Información (BD)
-                    IDUsuario = 1,                    
-                    Correo = "sotillo257@gmail.com",
-                   
-                };
+                return null;
             }
             else
             {
-                return new Usuarios()
-                {
-                    // Id del Usuario en el Sistema de Información (BD)
-                    IDUsuario = 1,                   
-                    Correo = "email.usuario@dominio.com",
-                   
-                };
+                return user;
             }
-
-
             // Supondremos que el Usuario NO existe en la Base de Datos.
             // Retornamos NULL.
             //return null;
@@ -94,12 +82,14 @@ namespace INDIMIN.Controllers
             // CREAMOS LOS CLAIMS //
             var _Claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.NameId, usuarioInfo.IDUsuario.ToString()),
+                new Claim(JwtRegisteredClaimNames.NameId, usuarioInfo.Id.ToString()),
                 new Claim("nombre", "Jesus"),
                 new Claim("apellidos", "Sotillo"),
+                new Claim("IDUsuario",  usuarioInfo.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, usuarioInfo.Correo),
                 new Claim(ClaimTypes.Role, "Admin")
             };
+       
 
             // CREAMOS EL PAYLOAD //
             var _Payload = new JwtPayload(
@@ -108,7 +98,7 @@ namespace INDIMIN.Controllers
                     claims: _Claims,
                     notBefore: DateTime.UtcNow,
                     // Exipra a la 24 horas.
-                    expires: DateTime.UtcNow.AddSeconds(30)
+                    expires: DateTime.UtcNow.AddHours(24)
                 );
 
             // GENERAMOS EL TOKEN //
